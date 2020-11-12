@@ -2,7 +2,9 @@ package io.neca.springbootbackend.controller;
 
 import static org.assertj.core.api.Assertions.*;
 
+import io.neca.springbootbackend.exception.EmployeeNotFoundException;
 import io.neca.springbootbackend.model.Employee;
+import io.neca.springbootbackend.repository.EmployeeRepository;
 import io.neca.springbootbackend.service.EmployeeService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -34,6 +36,9 @@ class EmployeeControllerTest {
     @Autowired
     private MockMvc mockMvc;
 
+    @Autowired
+    private EmployeeRepository repository;
+
     @Test
     @DisplayName("Just simple testing with assertj")
     public void getEmployeeTest() throws Exception {
@@ -41,10 +46,17 @@ class EmployeeControllerTest {
     }
 
     @Test
-    @DisplayName("assertj test version 2 i hope this will work")
+    @DisplayName("Assertj test version 2 i hope this will work")
     public void  getEmployeeTestV2() {
         Optional<Employee> employee = service.getOne(1);
         assertThat(employee).isNotNull();
+    }
+
+    @Test
+    @DisplayName("Testing the repository")
+    public void checkName() {
+        Employee emp = service.getOne(2).orElseThrow(() -> new EmployeeNotFoundException("nema ga"));
+        assertThat(emp.getFirstName()).isEqualTo("Mark");
     }
 
 }
