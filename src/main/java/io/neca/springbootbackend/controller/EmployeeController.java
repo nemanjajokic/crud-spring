@@ -4,6 +4,7 @@ import io.neca.springbootbackend.exception.EmployeeNotFoundException;
 import io.neca.springbootbackend.model.Employee;
 import io.neca.springbootbackend.service.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,12 +20,14 @@ public class EmployeeController {
 
     // create employee
     @PostMapping("/employees")
+    @ResponseStatus(HttpStatus.CREATED)
     public Employee createEmployee(@RequestBody Employee employee) {
         return service.create(employee);
     }
 
     // get all employees
     @GetMapping("/employees")
+    @ResponseStatus(HttpStatus.OK)
     public List<Employee> getAllEmployees() {
         return service.getAll();
     }
@@ -53,6 +56,7 @@ public class EmployeeController {
 
     // delete employee
     @DeleteMapping("/employees/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteEmployee(@PathVariable int id) {
         service.delete(id);
     }
